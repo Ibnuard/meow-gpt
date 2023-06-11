@@ -27,7 +27,7 @@ const gptFunc = async (browser, message = "Halo", response) => {
   async function copyContent() {
     await page.waitForSelector(
       ".opacity-100 > .flex > .relative:nth-child(3) > .flex > .cursor-pointer",
-      { timeout: 5 * 60 * 1000 }
+      { timeout: 10 * 60 * 1000 }
     );
     await page.click(
       ".opacity-100 > .flex > .relative:nth-child(3) > .flex > .cursor-pointer"
@@ -35,6 +35,24 @@ const gptFunc = async (browser, message = "Halo", response) => {
   }
 
   // scroll on result avoid screen blocked
+  async function autoScroll(page) {
+    await page.evaluate(async () => {
+      await new Promise((resolve) => {
+        var totalHeight = 0;
+        var distance = 100;
+        var timer = setInterval(() => {
+          var scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+
+          if (totalHeight >= scrollHeight - window.innerHeight) {
+            clearInterval(timer);
+            resolve();
+          }
+        }, 100);
+      });
+    });
+  }
 
   try {
     console.log("try to find input");
@@ -82,6 +100,7 @@ const gptFunc = async (browser, message = "Halo", response) => {
       if (!page) {
         return page.close();
       }
+      await autoScroll(page);
       await copyContent(page);
       const text = await page.evaluate(() => navigator.clipboard.text);
       await response(text);
