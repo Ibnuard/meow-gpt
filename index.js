@@ -14,7 +14,7 @@ const WAConnect = async () => {
     puppeteer: {
       headless: os.platform() == "win32" ? false : true,
       executablePath:
-        os.platform() == "win32"
+        os.platform() !== "win32"
           ? "/usr/bin/google-chrome-stable"
           : "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
       args: [
