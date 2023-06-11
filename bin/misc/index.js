@@ -1,0 +1,1 @@
+exports.Words = require("./words");
