@@ -19,23 +19,8 @@ const Handler = async (client, message) => {
   // Handle on received personal message
   if (!cat.isGroup) {
     await message.react("😼");
-    await gptFunc(client.pupBrowser, message.body, async (res) => {
-      replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
-
-      if (res == "ERROR") {
-        await message.react("😿");
-      } else {
-        await message.react("😽");
-      }
-    });
-  }
-
-  // Handle on bot mentioned on grup
-  if (cat.isBotMentioned) {
-    await message.react("😼");
-    const prompt = message.body.split(" ").slice(1).join(" ");
-    if (prompt.length > 0) {
-      await gptFunc(client.pupBrowser, prompt, async (res) => {
+    try {
+      await gptFunc(client.pupBrowser, message.body, async (res) => {
         replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
 
         if (res == "ERROR") {
@@ -44,6 +29,31 @@ const Handler = async (client, message) => {
           await message.react("😽");
         }
       });
+    } catch (error) {
+      replyMessage("Meow coba lagi ya😿");
+      await message.react("😿");
+    }
+  }
+
+  // Handle on bot mentioned on grup
+  if (cat.isBotMentioned) {
+    await message.react("😼");
+    const prompt = message.body.split(" ").slice(1).join(" ");
+    if (prompt.length > 0) {
+      try {
+        await gptFunc(client.pupBrowser, prompt, async (res) => {
+          replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
+
+          if (res == "ERROR") {
+            await message.react("😿");
+          } else {
+            await message.react("😽");
+          }
+        });
+      } catch (error) {
+        replyMessage("Meow coba lagi ya😿");
+        await message.react("😿");
+      }
     } else {
       await message.react("😾");
       replyMessage("Manggil doang nanya kaga😾");

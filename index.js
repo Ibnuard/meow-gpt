@@ -11,7 +11,8 @@ const WAConnect = async () => {
       dataPath: "./.meow",
     }),
     puppeteer: {
-      executablePath: "/usr/bin/google-chrome-stable",
+      executablePath:
+        "/usr/bin/google-chrome-stable" /*"/usr/bin/google-chrome-stable"*/,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",

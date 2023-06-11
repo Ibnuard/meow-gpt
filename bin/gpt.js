@@ -5,6 +5,8 @@ const gptFunc = async (browser, message = "Halo", response) => {
     waitUntil: "networkidle0",
   });
 
+  await page.setViewport({ width: 1920, height: 1080 });
+
   const context = browser.defaultBrowserContext();
   await context.overridePermissions("https://chat.forefront.ai", [
     "clipboard-read",
@@ -21,6 +23,7 @@ const gptFunc = async (browser, message = "Halo", response) => {
     })
   );
 
+  // copy on result
   async function copyContent() {
     await page.waitForSelector(
       ".opacity-100 > .flex > .relative:nth-child(3) > .flex > .cursor-pointer",
@@ -30,6 +33,8 @@ const gptFunc = async (browser, message = "Halo", response) => {
       ".opacity-100 > .flex > .relative:nth-child(3) > .flex > .cursor-pointer"
     );
   }
+
+  // scroll on result avoid screen blocked
 
   try {
     console.log("try to find input");
