@@ -2,6 +2,7 @@ const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
 const { Log } = require("./bin/styles");
 const { Handler } = require("./bin");
+var os = require("os");
 
 const WAConnect = async () => {
   const BOT = new Client({
@@ -11,9 +12,11 @@ const WAConnect = async () => {
       dataPath: "./.meow",
     }),
     puppeteer: {
-      headless: false,
+      headless: os.platform() == "win32" ? false : true,
       executablePath:
-        "/usr/bin/google-chrome-stable" /*"/usr/bin/google-chrome-stable"*/ /*"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"*/,
+        os.platform() == "win32"
+          ? "/usr/bin/google-chrome-stable"
+          : "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
