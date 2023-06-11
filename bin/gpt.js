@@ -103,7 +103,12 @@ const gptFunc = async (browser, message = "Halo", response) => {
       await autoScroll(page);
       await copyContent(page);
       const text = await page.evaluate(() => navigator.clipboard.text);
-      await response(text);
+      await response(
+        text ||
+          (await result?.evaluate((el) => {
+            return el.textContent;
+          }))
+      );
       return page.close();
     } catch (e) {
       console.error(e);
