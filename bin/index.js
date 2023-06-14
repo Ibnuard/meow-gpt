@@ -1,5 +1,7 @@
 const { Meow } = require("../meow");
 const gptFunc = require("./gpt");
+const chatGPT = require("./gpt2");
+const { modeSelector } = require("./utils");
 
 //MESSAGE HANDLER
 const Handler = async (client, message) => {
@@ -20,15 +22,20 @@ const Handler = async (client, message) => {
   if (!cat.isGroup) {
     await message.react("😼");
     try {
-      await gptFunc(client.pupBrowser, message.body, async (res) => {
-        replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
+      console.log("ChatDemo AI");
+      await chatGPT(
+        message.body,
+        async (res) => {
+          replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
 
-        if (res == "ERROR") {
-          await message.react("😿");
-        } else {
-          await message.react("😽");
-        }
-      });
+          if (res == "ERROR") {
+            await message.react("😿");
+          } else {
+            await message.react("😻");
+          }
+        },
+        client.pupBrowser
+      );
     } catch (error) {
       replyMessage("Meow coba lagi ya😿");
       await message.react("😿");
@@ -41,13 +48,14 @@ const Handler = async (client, message) => {
     const prompt = message.body.split(" ").slice(1).join(" ");
     if (prompt.length > 0) {
       try {
-        await gptFunc(client.pupBrowser, prompt, async (res) => {
+        console.log("ChatDemo AI");
+        await chatGPT(prompt, async (res) => {
           replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
 
           if (res == "ERROR") {
             await message.react("😿");
           } else {
-            await message.react("😽");
+            await message.react("😻");
           }
         });
       } catch (error) {
