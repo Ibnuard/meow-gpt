@@ -12,7 +12,6 @@ const WAConnect = async () => {
       dataPath: "./.meow",
     }),
     puppeteer: {
-      headless: os.platform() == "win32" ? false : false,
       executablePath:
         os.platform() !== "win32"
           ? "/usr/bin/google-chrome-stable"
