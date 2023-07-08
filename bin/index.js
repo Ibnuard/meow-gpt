@@ -23,20 +23,15 @@ const Handler = async (client, message) => {
     await message.react("😼");
     try {
       console.log("ChatDemo AI");
-      await gptFunc(
-        client.pupBrowser,
-        message.body,
-        async (res) => {
-          replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
+      await gptFunc(client.pupBrowser, message.body, async (res) => {
+        replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
 
-          if (res == "ERROR") {
-            await message.react("😿");
-          } else {
-            await message.react("😻");
-          }
-        },
-        client.pupBrowser
-      );
+        if (res == "ERROR") {
+          await message.react("😿");
+        } else {
+          await message.react("😻");
+        }
+      });
     } catch (error) {
       replyMessage("Meow coba lagi ya😿");
       await message.react("😿");
