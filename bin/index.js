@@ -23,7 +23,8 @@ const Handler = async (client, message) => {
     await message.react("😼");
     try {
       console.log("ChatDemo AI");
-      await chatGPT(
+      await gptFunc(
+        client.pupBrowser,
         message.body,
         async (res) => {
           replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
@@ -49,7 +50,7 @@ const Handler = async (client, message) => {
     if (prompt.length > 0) {
       try {
         console.log("ChatDemo AI");
-        await chatGPT(prompt, async (res) => {
+        await gptFunc(client.pupBrowser, message.body, async (res) => {
           replyMessage(res == "ERROR" ? "Meow coba lagi ya😿" : res);
 
           if (res == "ERROR") {
