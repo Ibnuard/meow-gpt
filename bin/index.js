@@ -20,6 +20,7 @@ const Handler = async (client, message) => {
 
   // Handle on received personal message
   if (!cat.isGroup) {
+    console.log("bot called with message " + message.body);
     await message.react("😼");
     try {
       console.log("ChatDemo AI");
@@ -40,6 +41,7 @@ const Handler = async (client, message) => {
 
   // Handle on bot mentioned on grup
   if (cat.isBotMentioned) {
+    console.log("bot mentioned with message " + message.body);
     await message.react("😼");
     const prompt = message.body.split(" ").slice(1).join(" ");
     if (prompt.length > 0) {
